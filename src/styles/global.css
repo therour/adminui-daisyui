@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .form-control>.label:first-child {
+        @apply p-0
+    }
+    .form-control>.label+.input {
+        @apply mt-1
+    }
+    .form-control > .input-error + .error-helper {
+        @apply text-2xs flex items-center justify-start py-1 leading-none text-error dark:mx-2 dark:-mt-1 dark:px-2 dark:bg-error dark:text-base-content dark:rounded-md dark:transition
+    }
+    .form-control > .input-error:focus + .error-helper {
+        @apply dark:opacity-80 dark:translate-y-1
+    }
+
+    .input {
+        @apply h-10 leading-10 px-3 text-sm dark:bg-base-300
+    }
+    .input.input-lg {
+        @apply h-12 leading-12 px-4 text-base
+    }
+    .input.input-sm {
+        @apply h-8 leading-8 px-2 text-xs
+    }
+    .input.input-xs {
+        @apply h-6 leading-6 px-1 text-2xs
+    }
+
+    .btn {
+        @apply h-10 min-h-10 px-3 text-sm !leading-none
+    }
+    .btn.btn-lg {
+        @apply h-12 min-h-12 px-4 text-base
+    }
+    .btn.btn-sm {
+        @apply h-8 min-h-8 px-2 text-xs
+    }
+    .btn.btn-xs {
+        @apply h-6 min-h-6 px-1 text-2xs
+    }
+}
