@@ -10,7 +10,6 @@ const loginSchema = z.object({
   email: z.string().min(1).email(),
   password: z.string().min(1),
 })
-type LoginFormValues = z.infer<typeof loginSchema>
 
 function LoginPage() {
   const { handleSubmit, register, formState, setError } = useForm({
@@ -21,19 +20,16 @@ function LoginPage() {
     },
   })
 
-  const onSubmit = (values: LoginFormValues) => {
+  const onSubmit = handleSubmit((values) => {
     const payload = { email: values.email, password: values.password }
     return AuthService.login(payload).catch(handleValidationError(setError))
-  }
+  })
 
   const { errors } = formState
 
   return (
     <div className=" flex min-h-screen items-start justify-center bg-base-200 pt-20">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full max-w-xl flex-col gap-3 rounded-lg bg-base-100 p-4 sm:shadow-md"
-      >
+      <form onSubmit={onSubmit} className="flex w-full max-w-xl flex-col gap-3 rounded-lg bg-base-100 p-4 sm:shadow-md">
         <FormInput
           label="E-Mail Address"
           placeholder="E-Mail Address"
@@ -49,7 +45,7 @@ function LoginPage() {
           isError={Boolean(errors.password)}
           {...register('password')}
         />
-        <Button type="submit" color="primary" className="mt-4">
+        <Button type="submit" color="primary" loading={formState.isSubmitting} className="mt-4">
           Login
         </Button>
       </form>

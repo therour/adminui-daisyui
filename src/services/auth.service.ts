@@ -1,17 +1,17 @@
 import { useQuery } from 'react-query'
 import Api from '../api'
-import useAuthStore from '../store/auth'
+import useAuthStore, { AuthState, selectAuthState } from '../store/auth'
 import { AuthenticatedUser } from '../types/user'
-import shallow from 'zustand/shallow'
 
 export const AuthService = {
   async getAuthenticatedUser() {
-    let { user } = useAuthStore.getState()
-    const { token, authenticate } = useAuthStore.getState()
+    const authStore = useAuthStore.getState()
+    const authState = selectAuthState(authStore)
+    let { user } = authStore
 
-    if (token && user === null) {
+    if (authState === AuthState.authenticating) {
       const response = await Api.auth.getMe()
-      authenticate(response.data.data)
+      authStore.authenticate(response.data.data)
       user = useAuthStore.getState().user
     }
 
@@ -24,13 +24,25 @@ export const AuthService = {
     const { authenticate } = useAuthStore.getState()
     authenticate(user, token)
   },
+
+  async logout() {
+    const { clearAuthentication, setLoggingOut } = useAuthStore.getState()
+    try {
+      setLoggingOut(true)
+      await Api.auth.logout()
+    } finally {
+      clearAuthentication()
+      setLoggingOut(false)
+    }
+  },
 }
 
 export const useAuth = () => {
-  const { data: user, isLoading } = useQuery(['auth'], AuthService.getAuthenticatedUser)
-  const token = useAuthStore((state) => state.token)
+  const { data: user, isLoading } = useQuery(['auth'], AuthService.getAuthenticatedUser, {
+    initialData: useAuthStore.getState().user ?? undefined,
+  })
 
-  return { user, isLoading: Boolean(token && !user) && isLoading }
+  return { user, isLoading }
 }
 
 export const useAuthUser = () => {

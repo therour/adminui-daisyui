@@ -1,13 +1,19 @@
 import type { RouteObject } from 'react-router-dom'
 import { createBrowserRouter, redirect } from 'react-router-dom'
 import DashboardPage from '../views/Dashboard/DashboardPage'
+import Layout from '../views/Dashboard/Layout'
 import LoginPage from '../views/LoginPage'
 import AuthenticationRoute from './AuthenticationRoute'
 
 const privateRoutes: RouteObject[] = [
   {
-    path: '/dashboard',
-    element: <DashboardPage />,
+    element: <Layout />,
+    children: [
+      {
+        path: '/dashboard',
+        element: <DashboardPage />,
+      },
+    ],
   },
 ]
 

@@ -15,4 +15,7 @@ export default (axios: AxiosInstance) => ({
       config,
     )
   },
+  logout(config?: AxiosRequestConfig) {
+    return axios.post('/v1/auth/logout', null, config)
+  },
 })
