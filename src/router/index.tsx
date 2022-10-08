@@ -1,7 +1,9 @@
 import type { RouteObject } from 'react-router-dom'
 import { createBrowserRouter, redirect } from 'react-router-dom'
 import DashboardPage from '../views/Dashboard/DashboardPage'
-import Layout from '../views/Dashboard/Layout'
+import MemberPage from '../views/Dashboard/MemberPage'
+import ProfilePage from '../views/Dashboard/ProfilePage'
+import Layout from '../views/Dashboard/_layouts'
 import LoginPage from '../views/LoginPage'
 import AuthenticationRoute from './AuthenticationRoute'
 
@@ -12,6 +14,14 @@ const privateRoutes: RouteObject[] = [
       {
         path: '/dashboard',
         element: <DashboardPage />,
+      },
+      {
+        path: '/profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: '/members',
+        element: <MemberPage />,
       },
     ],
   },

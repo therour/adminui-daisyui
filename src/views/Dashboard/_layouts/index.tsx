@@ -1,9 +1,10 @@
-import { AddressBook, Bell, Folders, SignOut, SquaresFour, User, Wrench } from 'phosphor-react'
+import { Bell, SignOut, User } from 'phosphor-react'
 import { useCallback, useState } from 'react'
-import { Button, Tooltip } from 'react-daisyui'
-import { Outlet } from 'react-router-dom'
-import { useConfirmation } from '../../components/ConfirmationDialog'
-import { AuthService, useAuthUser } from '../../services/auth.service'
+import { Button } from 'react-daisyui'
+import { NavLink, Outlet } from 'react-router-dom'
+import { useConfirmation } from '../../../components/ConfirmationDialog'
+import { AuthService, useAuthUser } from '../../../services/auth.service'
+import SidebarNavigation from './SidebarNavigation'
 
 const Layout = () => {
   return (
@@ -16,9 +17,9 @@ const Layout = () => {
       </header>
       <div className="flex min-h-screen bg-base-200 pt-[56px] pl-[64px]">
         <nav className="fixed top-[56px] bottom-0 left-0 z-10 flex w-[64px] flex-col items-center gap-3 bg-base-100 pt-8 pb-12 shadow-sm">
-          <SidebarNav />
+          <SidebarNavigation />
         </nav>
-        <main className="h-full w-full px-5 pt-8">
+        <main className="h-full w-full px-5 py-8">
           <Outlet />
         </main>
       </div>
@@ -54,34 +55,13 @@ const HeaderNav = () => {
         <SignOut weight="bold" size={24} />
       </Button>
       <div className="my-auto text-sm">{user.email}</div>
-      <Button color="ghost" shape="square" size="sm">
+      <NavLink to="/profile" className="btn btn-ghost btn-square btn-sm">
         <User weight="bold" size={24} />
-      </Button>
+      </NavLink>
       <Button color="ghost" shape="square" size="sm">
         <Bell weight="bold" size={24} />
       </Button>
     </div>
-  )
-}
-
-const SidebarNav = () => {
-  return (
-    <>
-      <Tooltip message="Home" className="tooltip-right">
-        <Button color="ghost" shape="square">
-          <SquaresFour weight="fill" size={24} />
-        </Button>
-      </Tooltip>
-      <Button color="ghost" shape="square">
-        <AddressBook weight="fill" size={24} />
-      </Button>
-      <Button color="ghost" shape="square">
-        <Folders weight="fill" size={24} />
-      </Button>
-      <Button color="ghost" shape="square">
-        <Wrench weight="fill" size={24} />
-      </Button>
-    </>
   )
 }
 

@@ -28,7 +28,7 @@ const getUserFromLocalStorage = () => {
   const userJSON = TempLocalStorage.getItem(USER_STORAGE_KEY)
   if (userJSON) {
     const user = JSON.parse(userJSON)
-    return user
+    return user as AuthenticatedUser
   }
   return null
 }
@@ -91,7 +91,7 @@ useAuthStore.subscribe(
 useAuthStore.subscribe(
   (state) => state.token,
   () => {
-    queryClient.resetQueries(['auth'])
+    queryClient.invalidateQueries(['auth'])
   },
 )
 
