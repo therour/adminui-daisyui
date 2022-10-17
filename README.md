@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+# Admin UI with Daisyui
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Packages
+- [axios](https://github.com/axios/axios) (a http client)
+- [phospor-react](https://github.com/phosphor-icons/phosphor-react) (react component icon from [phosphoricons.com](https://phosphoricons.com/))
+- [react-daisyui](https://react.daisyui.com/) (react component of [daisyui](https://daisyui.com/))
+- [react-hook-form](https://react-hook-form.com/) (react hook for handling form state)
+- [react-query](https://react-query-v3.tanstack.com/) (react fetching library)
+- [zod](https://github.com/colinhacks/zod) (typescript validation schema)
+- [zustand](https://github.com/pmndrs/zustand) (ez state management)
 
-## Available Scripts
+## Styling
+- [Customize daisyUI components — Tailwind CSS Components](https://daisyui.com/docs/customize/)
+- For Icon used here read about [phosphoricons.com](https://phosphoricons.com/)
 
-In the project directory, you can run:
 
-### `npm start`
+## Structure Folder
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### `/public`
+All public assets are stored here ([read more about public dir in Create React App](https://create-react-app.dev/docs/using-the-public-folder/))
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### `src/api`
+All API Call definition are stored here<br/>
+for example you want to call login endpoint:
+```typescript
+import Api from '../api'
 
-### `npm test`
+Api.auth.login({ email: 'user@example.com', password: 'password' })
+    .then((response) => {
+        const { data: user, token } = response.data
+    })
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `src/common`
+All object or utils that are globally used in this project can be stored here<br/>
+for example:
+- `src/common/query-client` to store the created QueryClient instance from `react-query`
+- `src/common/TempLocalStorage` a local storage with expiration time instance
 
-### `npm run build`
+### `src/components`
+All global reusable component can be stored here
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `src/router`
+The routes definition are configured in `src/router/index.tsx` you may add your route here
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `src/services`
+Usually for business logic are stored in their own service domain here<br/>
+for example:
+- `AuthService` in `src/services/auth.service.ts` is the service for:
+    - getting current authenticated user data -> this calls `Api.auth.getMe` api
+    - login -> this calls `Api.auth.login` api
+    - logout -> this calls `Api.auth.logout` api
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `src/store`
+for globally state management store
 
-### `npm run eject`
+### `src/styles`
+you can store all the style css here
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### `src/types`
+you can store all the reusable typescript type definition here
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### `src/views`
+for all the views (page / layout)
+- usually in `src/router/index` we will point the route element to component defined in this directory
